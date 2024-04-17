@@ -2,7 +2,8 @@
 刷题路线  
 2024/17 数组 二分查找 移除元素
 
-# 二分查找题目：![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
+#  二分查找题目：  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
 ```
 class Solution {
 public:
