@@ -129,7 +129,8 @@ public:
     }
 };
 ```
-螺旋矩阵：![image](https://github.com/D-G404/leetcode-practice/assets/75080033/cad5383a-94b3-4f75-998c-c492460c98ba)
+螺旋矩阵：  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/cad5383a-94b3-4f75-998c-c492460c98ba)
 ```
 class Solution {
 public:
