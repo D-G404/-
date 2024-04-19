@@ -1,6 +1,7 @@
 刷题路线  
 [2024 4/17 数组 二分查找 移除元素](#二分查找题目)   
 [2024 4/18 数组 有序数组的平方(长度最小的子数组) 螺旋矩阵II ](#有序数组的平方题目) 
+[2024 4/19 链表 203.移除链表元素 707.设计链表 206.反转链表 ](#移除链表元素题目) 
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -171,6 +172,161 @@ public:
             upleft += 1; upright -= 1; downleft += 1; downright -= 1;
         }
         return v;
+    }
+};
+```
+##  移除链表元素题目
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/1932d49d-1bda-469c-80db-f4cb8c0b7e16)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        //虚拟头结点 能够解决 全是一个数的情况
+        ListNode* newHead = new ListNode(-1,head);
+        ListNode* pretemp = newHead;
+        ListNode* temp = head;
+        while(temp != nullptr){
+            if(temp->val == val){
+                pretemp->next = temp->next;
+                delete temp;
+                temp = pretemp->next;
+            }else{
+                pretemp = pretemp->next;
+                temp = temp->next;
+            }
+        }
+        return newHead->next;
+    }
+};
+```
+设计链表题目：
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3ad19374-451c-448f-935b-e3374c238291)
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/afb69101-2e92-4b3f-8fca-72918d2e0a8d)
+```
+struct node{
+    int val;
+    node* next;
+    node():val(0),next(nullptr){}
+    node(int val ,node* next = nullptr):val(val),next(next){}
+};
+
+class MyLinkedList {
+public:
+    MyLinkedList() {
+        head = new node();
+        length = 0;
+    }
+    
+    int get(int index) {
+        if (index < 0 || index >= length) 
+            return -1;
+        node* temp = head->next;
+        while(index--){
+            temp = temp->next;
+        }
+        return temp->val;
+    }
+    
+    void addAtHead(int val) {
+        node* temp = new node(val,head->next);
+        head->next =temp;
+        length++;
+    }
+    
+    void addAtTail(int val) {
+        node* temp = head;
+        while(temp->next != nullptr){
+            temp = temp->next;
+        }
+        temp->next = new node(val);
+        length++;
+    }
+    
+    void addAtIndex(int index, int val) {
+        if(index < 0|| index > length)
+            return;
+        node* temp = head;
+        while(index--){
+            temp = temp->next;
+        }
+        temp->next = new node(val,temp->next);
+        length++;
+    }
+    
+    void deleteAtIndex(int index) {
+        if(index < 0|| index >= length)
+            return;
+        node* temp = head;
+        while(index--){
+            temp = temp->next;
+        }
+        node* tempnext = temp->next;
+        temp->next = temp->next->next;
+        delete tempnext;
+        tempnext = nullptr;
+        length--;
+    }
+private:
+    node* head;
+    int length;
+};
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * MyLinkedList* obj = new MyLinkedList();
+ * int param_1 = obj->get(index);
+ * obj->addAtHead(val);
+ * obj->addAtTail(val);
+ * obj->addAtIndex(index,val);
+ * obj->deleteAtIndex(index);
+ */
+```
+反转链表题目：
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3ba697b9-b053-41da-9ca6-d0cbe6e53b5a)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        //分别对只有一个节点、没有节点、两个节点情况处理
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        if(head->next->next == nullptr){
+            ListNode* temp = head->next;
+            temp->next = head;
+            head->next = nullptr;
+            return temp;
+        }
+        //temp1 2 3 向后一位一位的移动
+        ListNode* temp1 = head,*temp2 = head->next,*temp3 = head->next->next;
+        temp1->next = nullptr;
+        while(temp3 != nullptr){  
+            temp2->next = temp1;
+            temp1 = temp2;
+            temp2 = temp3;
+            temp3 = temp3->next;
+        }
+        temp2->next = temp1;
+        return temp2;
     }
 };
 ```
