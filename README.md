@@ -2,7 +2,7 @@
 [2024 4/17 数组 二分查找 移除元素](#二分查找题目)   
 [2024 4/18 数组 有序数组的平方(长度最小的子数组) 螺旋矩阵II ](#有序数组的平方题目)   
 [2024 4/19 链表 203.移除链表元素 707.设计链表 206.反转链表 ](#移除链表元素题目)   
-[2024 4/20 链表 ](#题目)   
+[2024 4/20 链表 两交换链表中的节点 删除链表的倒数第N个节点 链表相交 环形链表II  ](#两两交换链表题目)   
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -90,7 +90,7 @@ public:
     }
 };
 ```
-长度最小的子数组(最小连续子数组)题目：
+##  长度最小的子数组(最小连续子数组)题目：
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/1ea33a2d-79cc-4e90-bbbc-19da7615f799)
 ```
 class Solution {
@@ -131,7 +131,7 @@ public:
     }
 };
 ```
-螺旋矩阵：  
+##  螺旋矩阵：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/cad5383a-94b3-4f75-998c-c492460c98ba)
 ```
 class Solution {
@@ -210,7 +210,7 @@ public:
     }
 };
 ```
-设计链表题目：
+## 设计链表题目：
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3ad19374-451c-448f-935b-e3374c238291)
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/afb69101-2e92-4b3f-8fca-72918d2e0a8d)
 ```
@@ -331,5 +331,82 @@ public:
     }
 };
 ```
+##  两两交换链表题目:
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/01ffb1b0-d4d6-41a6-aa3b-f5a22a9b6c24)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        //奇怪的写法 加上了头结点，出错概率高
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        ListNode* dummy =new ListNode(-1, head);
+        ListNode* temp1 = dummy,*temp2 = head,*temp3 = head->next,*temp4 = head->next->next;
+        while(temp4 != nullptr){
+            temp1->next = temp3;
+            temp3->next = temp2;
+            temp1 = temp2;
+            temp2 = temp4;
+            temp3 = temp4->next;
+            if(temp4 && temp4->next == nullptr){
+                temp1->next = temp4;
+                return dummy->next;
+            }          
+            else
+                temp4 = temp4->next->next;
+        }
+        temp1->next = temp3;
+        temp3->next = temp2;
+        temp2->next = nullptr;
+        return dummy->next;
+    }
+};
+```
+##  删除链表的倒数第N个节点:  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/0db8434d-d296-47fc-9b1b-376e960a876a)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        //设计技巧：先让快指针走n步 找到删除的前一个节点,头结点更简单
+        ListNode* dummy = new ListNode(-1,head);
+        ListNode*fast = dummy,*slow = dummy;
+        while(n--)
+            fast = fast->next;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        // if(fast == nullptr)
+        //     return nullptr;
+        ListNode* temp = slow->next;
+        slow->next = slow->next->next;
+        delete temp;
+        return dummy->next;
+    }
+};
+```
+
+
 
 
