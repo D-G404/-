@@ -292,7 +292,7 @@ private:
  * obj->deleteAtIndex(index);
  */
 ```
-反转链表题目：
+## 反转链表题目：
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3ba697b9-b053-41da-9ca6-d0cbe6e53b5a)
 ```
 /**
@@ -403,6 +403,93 @@ public:
         slow->next = slow->next->next;
         delete temp;
         return dummy->next;
+    }
+};
+```
+## 链表相交:  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/d273fc48-c2d1-41e3-aec2-f1e02213ac21)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //指针思路和哈希表思路 采用指针思路：要是相交最后的元素相同
+        ListNode* temp1 = headA,*temp2 = headB;
+        if(temp1 == nullptr || temp2 == nullptr) //注意判断都是空的情况
+            return nullptr;
+        int len1 = 1 ,len2 = 1;
+        while(temp1->next){
+            len1++;
+            temp1 = temp1->next;
+        }
+         while(temp2->next){
+            len2++;
+            temp2 = temp2->next;
+        }
+        if(temp1 != temp2)
+            return NULL;
+        temp1 = headA,temp2 = headB;
+        if(len1 > len2){
+            int dif = len1-len2;
+            while(dif--){
+                temp1 = temp1->next;
+            }
+            while(temp1 != temp2){
+                temp1 = temp1->next;
+                temp2 = temp2->next;
+            }
+        }else{
+            int dif = len2-len1;
+            while(dif--){
+                temp2 = temp2->next;
+            }
+            while(temp1 != temp2){
+                temp1 = temp1->next;
+                temp2 = temp2->next;
+            }
+        }
+        return temp1;
+
+    }
+};
+```
+##  环形链表II  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/7f67b53c-83b2-4d66-8abc-1829ddeffe40)
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        //快慢指针判断环，从起点和相遇点出发再次相遇则是入环点
+        ListNode *fast = head,*slow = head;
+        while(fast != nullptr && fast->next != nullptr){
+            fast = fast->next->next;
+            slow = slow->next;
+            if(fast == slow)
+                break;
+        }
+        if(fast == nullptr || fast->next == nullptr)
+            return nullptr;
+        slow = head;
+        while(fast != slow){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
     }
 };
 ```
