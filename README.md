@@ -3,6 +3,8 @@
 [2024 4/18 数组 有序数组的平方(长度最小的子数组) 螺旋矩阵II ](#有序数组的平方题目)   
 [2024 4/19 链表 203.移除链表元素 707.设计链表 206.反转链表 ](#移除链表元素题目)   
 [2024 4/20 链表 两交换链表中的节点 删除链表的倒数第N个节点 链表相交 环形链表II  ](#两两交换链表题目)   
+[2024 4/22 哈希表 有效的字母异位词 两个数组的交集 快乐数 两数之和  ](#有效的字母异位词题目)
+
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -493,7 +495,29 @@ public:
     }
 };
 ```
-
+## 有效的字母异位词题目：  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/8d40ec0c-f9e2-4705-a347-1cb31ad4a059)
+```
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        //三次遍历解决
+        unordered_map<char,int> umap;
+        for(auto num: s){
+            umap[num]++;
+        }
+        for(auto num: t){
+            umap[num]--;
+        }
+        for(auto num:umap){
+            std::cout << num.first;
+            if(num.second != 0)
+                return false;
+        }
+        return true;
+    }
+};
+```
 
 
 
