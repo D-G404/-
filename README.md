@@ -518,6 +518,78 @@ public:
     }
 };
 ```
-
+## 两个数组的交集  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/9839880d-0f37-440c-8efd-8834039043c4)
+```
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int,int> mp;
+        vector<int>res;
+        //第一次加入map中，第二次查询重复
+        for(auto num: nums1){ //第一次遍历要控制num键值对 对应的值为1，从而保证后面只遍历一次
+            if(mp[num] == 0)
+                mp[num]++;
+        }  
+        for(auto num: nums2){
+            if(mp[num] == 1){
+                 mp[num]++;
+                 res.push_back(num);
+            }         
+        }
+        return res;
+    }
+};
+```
+## 快乐数  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/f69b14f0-a367-4237-b1d5-f0348ac5f487)
+```
+class Solution {
+public:
+    bool isHappy(int n) {
+        //第二次进入循环说明会无限循环下去 有没有可能无限增大，不可能
+        unordered_map<int,int> umap;
+        while(1){
+            if(n == 1)
+                return true;
+            if(umap[n] == 1)
+                return false;
+            umap[n]++;
+            int sum = 0;
+            while(n){
+                sum += pow(n%10,2);
+                n /= 10;
+            }
+            n =sum;
+        }
+    }
+};
+```
+## 两数之和  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/864c1686-8fa2-40b8-b4de-8c4f25b67c28)
+```
+class Solution {
+public:
+    //两数之和 注意值重复的情形 一遍遍历也可以了 解法复杂一点了
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,int> umap;
+        vector<int> v;
+        for(int i=0;i < nums.size();i++){
+            umap[nums[i]] = i;
+        }
+        for(int i =0;i < nums.size();i++){
+            if(umap.find(target - nums[i]) != umap.end() ){
+                auto it = umap.find(target - nums[i]);
+                if(it->second != i){
+                    v.push_back(it->second);
+                    v.push_back(i);
+                    return v;
+                }
+            }
+        }
+        return v;
+    }
+};
+```
 
 
