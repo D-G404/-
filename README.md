@@ -4,7 +4,7 @@
 [2024 4/19 链表 203.移除链表元素 707.设计链表 206.反转链表 ](#移除链表元素题目)   
 [2024 4/20 链表 两交换链表中的节点 删除链表的倒数第N个节点 链表相交 环形链表II  ](#两两交换链表题目)   
 [2024 4/22 哈希表 有效的字母异位词 两个数组的交集 快乐数 两数之和  ](#有效的字母异位词题目)
-
+[2024 4/23 哈希表 四数相加II 赎金信  三数之和 四数之和](# 四数相加II)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -590,6 +590,128 @@ public:
         return v;
     }
 };
+```
+##  四数相加II
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/2620b7a2-7d75-423f-a2fb-17b6d7ed1375)
+```
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        //四数相加需要构造出两对，时间复杂度o（n方）
+        int sum = 0;
+        unordered_map<int,int>umap1,umap2;
+        for(int i=0;i < nums1.size();i++){
+            for(int j=0;j < nums2.size();j++){
+                umap1[nums1[i]+nums2[j]]++;
+            }
+        }
+
+        for(int i=0;i < nums3.size();i++){
+            for(int j=0;j < nums4.size();j++){
+                umap2[nums3[i]+nums4[j]]++;
+            }
+        }
+
+        for(auto num1: umap1)
+            for(auto num2: umap2){
+                if(num1.first+num2.first == 0)
+                    sum += num1.second*num2.second;
+            }
+        return sum;
+    }
+};
+```
+## 赎金信  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/564b78db-733c-4d4d-bc9a-9d17bc36be32)  
+```
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char,int>umap;
+        for(int i=0;i < ransomNote.size();i++){
+            umap[ransomNote[i]]++;
+        }
+        
+        for(int i=0;i < magazine.size();i++){
+            if(umap.find(magazine[i]) != umap.end())
+                umap[magazine[i]]--;
+            if(umap[magazine[i]] == 0)
+                umap.erase(magazine[i]);
+        }   
+        
+        if(umap.empty())
+            return true;
+        return false;
+            
+    }
+};
+```
+## 三数之和
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/73c2c498-c22d-4ef3-a4a6-96462c11333a)  
+```
+class Solution {
+public:
+    static bool customCompare(std::vector<int>& a,std::vector<int>& b) {
+        // 比较第一个元素
+        if (a[0] != b[0]) {
+            return a[0] < b[0]; // 按照第一个元素排序
+        }
+        // 如果第一个元素相同，则比较第二个元素
+        if (a[1] != b[1]) {
+            return a[1] < b[1]; // 按照第二个元素排序
+        }
+        // 如果前两个元素都相同，则比较第三个元素
+        return a[2] < b[2]; // 按照第三个元素排序
+    }
+    //除了哈希表也有排序双指针的思路 哈希表去重难搞 下次三数之和再也不用哈希表了。。有几个超时的
+    vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> res;
+    vector<int>res_push;
+    sort(nums.begin(),nums.end());
+    unordered_map<int,int>umap;
+    for(int i = 0; i < nums.size(); i++){
+        umap[-nums[i]] = i;
+    }
+
+    for(int i = 0;i < nums.size(); i++)
+        for(int j = i+1; j <nums.size(); j++){
+            auto it = umap.find(nums[i]+nums[j]);
+            if(it != umap.end() && it->second != i && it->second != j && -(it->first)>=nums[j]){
+                int tmp1 = nums[i],tmp2 = nums[j],tmp3 = -(it->first);
+                res_push.push_back(nums[i]);
+                res_push.push_back(nums[j]);
+                res_push.push_back(-(it->first));
+                res.push_back(res_push);
+                res_push.clear();
+            }
+        }
+    //cout << res.size()-1;
+    //注意去重不能这样去，vector map都不能这样
+    // for(int i = 0;i < res.size()-1;i++){
+    //     // if(res[i] == res[i+1])
+    //     //     res.erase(res.begin()+i);
+    // }
+    sort(res.begin(), res.end(), customCompare);
+    if(!res.empty()){
+        auto it1 = res.begin();
+    auto it2 = res.begin()+1;
+    while(it2 != res.end()){
+       if(*it1 == *it2){
+            it2 = res.erase(it2);
+       }else{
+            it1++;it2++;
+       }   
+    }
+    } 
+    return res;
+}
+};
+
+```
+## 四数之和
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/e2ee0ac8-5721-49a3-ae2a-c8da408e4a81)  
+```
+
 ```
 
 
