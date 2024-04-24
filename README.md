@@ -824,5 +824,21 @@ public:
     }
 };
 ```
+## 右旋字符串  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/c018fce7-b870-4a21-b840-afd3c883e9a5)  
+```
+#include<iostream>
+
+int main(){
+    int num;
+    std::cin >> num;
+    std::string str;
+    std::cin >> str;
+    std::string temp = str.substr(str.size()-num,num);
+    str.erase(str.size()-num,num);
+    temp += str;
+    std::cout << temp;
+}
+```
 
 
