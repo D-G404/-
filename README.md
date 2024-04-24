@@ -4,7 +4,8 @@
 [2024 4/19 链表 203.移除链表元素 707.设计链表 206.反转链表 ](#移除链表元素题目)   
 [2024 4/20 链表 两交换链表中的节点 删除链表的倒数第N个节点 链表相交 环形链表II  ](#两两交换链表题目)   
 [2024 4/22 哈希表 有效的字母异位词 两个数组的交集 快乐数 两数之和  ](#有效的字母异位词题目)  
-[2024 4/23 哈希表 四数相加II 赎金信  三数之和 四数之和](#四数相加II)
+[2024 4/23 哈希表 四数相加II 赎金信  三数之和 四数之和()](#四数相加II)
+[2024 4/24 字符串 反转字符串 反转字符串II  卡码网：54.替换数字 .翻转字符串里的单词 卡码网：55.右旋转字符串 ](# 反转字符串)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -712,6 +713,116 @@ public:
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/e2ee0ac8-5721-49a3-ae2a-c8da408e4a81)  
 ```
 
+```
+## 反转字符串  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/7b202eeb-5bce-4399-bd36-f8a15b7ceafa)  
+```
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int len = s.size();
+        for(int i = 0; i < s.size()/2; i++){
+            char temp = s[i];
+            s[i] = s[len-i-1];
+            s[len-i-1] = temp;
+        }
+    }
+};
+```
+## 反转字符串II
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/6a0fa55e-af3d-4362-a390-4ccc92dcac08)  
+```
+class Solution {
+public:
+    string reverseStr(string s, int k) {
+        //reverse函数以及sort函数都位于algorithm包中，另外此字符串可以原地移动
+        //注意substr第二个参数是移动多少位
+        string res = "";
+        int n = s.length()/k;
+        for(int i = 0;i < n;i++){
+            if(i % 2 == 0){
+                string temp = s.substr(i*k,k);
+                reverse(temp.begin(),temp.end());
+                res += temp;
+            }else{
+                string temp = s.substr(i*k,k);
+                res += temp;
+            }
+        }
+        if(n%2 == 0){
+            string temp = s.substr(n*k,k);
+            reverse(temp.begin(),temp.end());
+            res += temp;
+        }else{
+            string temp = s.substr(n*k,s.size());
+            res += temp;
+        }
+        return res;
+    }
+};
+```
+## 替换数字  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/fd0365e8-f020-4aac-b25a-c00571684cd4)
+```
+#include<iostream>
+using namespace std;
+
+int main(){
+    string s;
+    cin>>s;
+    for(int i = 0;i < s.size();i++){
+        if(s[i]<='9' && s[i]>='0'){
+            s.erase(i,1);
+            s.insert(i,"number");
+        }
+    }
+    cout<<s;
+}
+```
+## 翻转字符串里的单词  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/dd29dc43-8f4a-4df4-b802-99e5e2105c81)
+```
+class Solution {
+public:
+    string reverseWords(string s) {
+        //单词根据空格分割 存在vector并翻转
+        vector<string>v;
+        for(int i = 0;i < s.size();i++){
+            while(i < s.size() && s[i] == ' '){
+                 s.erase(i,1);
+            }
+            break;
+        }
+        for(int i = (int)(s.size())-1;i >= 0;i--){
+            while(i >= 0 && s[i] == ' '){
+                 s.erase(i,1);
+            }
+            break;
+        }
+        for(int i = 0;i < s.size();i++){
+            if(s[i] == ' ' && s[i+1] == ' '){
+                s.erase(i,1);
+                i--;
+            }            
+        }
+        stringstream ss(s);
+        string temp;
+        while(getline(ss,temp,' ')){
+            v.push_back(temp);
+        }
+        s = "";
+        reverse(v.begin(),v.end());
+        for(int i =0;i < v.size();i++){
+            if(i != v.size()-1){
+                s += v[i];
+                s += " ";
+            }else{
+                s += v[i];
+            }
+        }
+        return s;
+    }
+};
 ```
 
 
