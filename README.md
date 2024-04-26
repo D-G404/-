@@ -6,7 +6,8 @@
 [2024 4/22 哈希表 有效的字母异位词 两个数组的交集 快乐数 两数之和  ](#有效的字母异位词题目)  
 [2024 4/23 哈希表 四数相加II 赎金信  三数之和 四数之和()](#四数相加II)  
 [2024 4/24 字符串 反转字符串 反转字符串II  卡码网：54.替换数字 .翻转字符串里的单词 卡码网：55.右旋转字符串 ](#反转字符串)  
-[2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)
+[2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)  
+[2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -851,6 +852,115 @@ int main(){
 ```
 
 ```
+## 用栈实现队列
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/357b664e-a4a6-4d04-82ee-516772fcdffe)  
+```
+class MyQueue {
+public:
+    stack<int>stk1,stk2;
+    MyQueue() {
+        
+    }
+    
+    void push(int x) {
+       stk1.push(x);
+    }
+    
+    int pop() {
+        if(stk2.empty() && stk1.empty())
+            return -1;
 
+        if(stk2.empty()){
+            while(!stk1.empty()){
+                stk2.push(stk1.top());
+                stk1.pop();
+            }
+        }
+        int res = stk2.top();
+        stk2.pop();
+        return res;
+    }
+    
+    int peek() {
+        if(stk2.empty()){
+            while(!stk1.empty()){
+                stk2.push(stk1.top());
+                stk1.pop();
+            }
+        }
+        return stk2.top();
+    }
+    
+    bool empty() {
+        if(stk1.empty() && stk2.empty())
+            return true;
+        return false;
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
+ */
+```
+## 用队列实现栈 
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/5c2c51d2-2613-4b94-ab8e-427ce3fe7790)  
+```
+class MyStack {
+public:
+    //用栈模拟队列 在pop里做文章，用队列模拟栈，在push里做文章，把q1当成临时储存的队列 ,q2是栈
+    queue<int>q1,q2;
+    MyStack() {
+
+    }
+    
+    void push(int x) {
+        q1.push(x);
+        if(!q2.empty()){
+            while(!q2.empty()){
+                int temp = q2.front();
+                q1.push(temp);
+                q2.pop();
+            }
+        }
+        if(!q1.empty()){
+            while(!q1.empty()){
+                int temp = q1.front();
+                q2.push(temp);
+                q1.pop();
+            }
+        }
+    }
+    
+    int pop() {
+        int res = q2.front();
+        q2.pop();
+        return res;
+    }
+    
+    int top() {
+        return q2.front();
+    }   
+    
+    bool empty() {
+        if(q1.empty() && q2.empty())
+            return true;
+        return false;
+    }
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
+```
 
 
