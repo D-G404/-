@@ -8,6 +8,7 @@
 [2024 4/24 字符串 反转字符串 反转字符串II  卡码网：54.替换数字 .翻转字符串里的单词 卡码网：55.右旋转字符串 ](#反转字符串)  
 [2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)  
 [2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
+[2024 4/27 栈与队列 有效的括号 删除字符串中的所有相邻重复项 逆波兰表达式求值](#有效的括号)  
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -961,6 +962,103 @@ public:
  * int param_3 = obj->top();
  * bool param_4 = obj->empty();
  */
+```
+## 有效的括号
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4f0f1b45-45a6-4553-972f-a2ecb51095ed)  
+```
+class Solution {
+public:
+    bool isValid(string s) {
+        //一个栈就能解决，注意条件
+        stack<char>stk;
+        for(auto num:s){
+            if(num == '(' || num == '{' || num == '[')
+                stk.push(num);
+            else if(!stk.empty()&&((num == ']'&&stk.top() == '[') || (num == ')'&&stk.top() == '(' || (num == '}'&&stk.top() == '{')))){
+                stk.pop();
+            }else{
+                return false;
+            }
+                
+        }
+        if(stk.empty())
+            return true;
+        return false;
+    }
+};
+```
+##  删除字符串中的所有相邻重复项 
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/650a1cea-92ff-48d3-b8b9-34eee35ea10d)  
+```
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        //删除重复项使用栈来解决 不使用栈也能解决 注意string的push back和pop back方法
+        stack<char> stk;
+        for(auto num:s){
+            if(stk.empty()){
+                stk.push(num);
+            }else if(stk.top() == num){
+                stk.pop();
+            }else
+                stk.push(num);
+        }
+        string res;
+        while(!stk.empty()){
+            char c = stk.top();
+           //cout<<stk.top();
+            stk.pop();
+            res += c;
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
+```
+##  逆波兰表达式求值  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/b4f891c6-c482-4694-93f3-9be6484f568e)  
+```
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+        for(auto num:tokens){
+            int tmp1,tmp2;
+            if(num == "+"){
+                tmp1 = stk.top();
+                stk.pop();
+                tmp2 = stk.top();
+                stk.pop();
+                int tmp3 = tmp1+tmp2;
+                stk.push(tmp3);
+            }else if(num == "-"){
+                tmp1 = stk.top();
+                stk.pop();
+                tmp2 = stk.top();
+                stk.pop();
+                int tmp3 = tmp2-tmp1;
+                stk.push(tmp3);
+            }else if(num == "*"){
+                tmp1 = stk.top();
+                stk.pop();
+                tmp2 = stk.top();
+                stk.pop();
+                int tmp3 = tmp2*tmp1;
+                stk.push(tmp3);
+            }else if(num == "/"){
+                tmp1 = stk.top();
+                stk.pop();
+                tmp2 = stk.top();
+                stk.pop();
+                int tmp3 = tmp2/tmp1;
+                stk.push(tmp3);
+            }else{
+                stk.push(atoi(num.c_str()));
+            }
+        }
+        return stk.top();
+    }
+};
 ```
 
 
