@@ -1061,7 +1061,7 @@ public:
     }
 };
 ```
-# 滑动窗口的最大值  
+# 滑动窗口最大值 
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/c1e3c919-d051-4b3f-a8bf-eb3d82faa99f)
 ```
 class Solution {
