@@ -9,6 +9,7 @@
 [2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)  
 [2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
 [2024 4/27 栈与队列 有效的括号 删除字符串中的所有相邻重复项 逆波兰表达式求值](#有效的括号)  
+[2024 5/3 栈与队列  239. 滑动窗口最大值 前 K 个高频元素](#滑动窗口最大值)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -1060,5 +1061,70 @@ public:
     }
 };
 ```
+# 滑动窗口的最大值  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/c1e3c919-d051-4b3f-a8bf-eb3d82faa99f)
+```
+class Solution {
+public:
+    //运行超时 使用优先队列不超时
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int max_num = INT_MIN;
+        vector<int> res;
+        for(int i = 0; i < k; i++){
+            max_num = max(max_num,nums[i]);
+        }
+        res.push_back(max_num);
+        int j = k;
+        while(j < nums.size()){
+            if(nums[j] > max_num){
+                max_num = nums[j];
+            }
+            //如果最开始的值和最大值一样，就得循环
+            if(nums[j-k] == max_num){
+                max_num = INT_MIN;
+                for(int i = j-k+1; i <= j ;i++){
+                    max_num = max(max_num,nums[i]);
+                }
+            }
+            res.push_back(max_num);
+            j++;
+        }
+        return res;
+    }
+};
 
-
+```
+# topk问题  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/87417706-fe88-4669-aa99-0b5e0f1aacbf)  
+```
+class Solution {
+public:
+    static bool cmp(pair<int,int>&p1,pair<int,int>&p2){
+        return p1.second > p2.second;
+    }
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        // topk问题，第一次使用优先队列解决，再使用快排解决
+        // 大顶堆还是小顶堆？小顶堆更好，占用空间更少，大顶堆需要将所有数据压入堆，但小顶堆排序出来是从小往大的k个数
+        priority_queue<pair<int,int>,vector<pair<int,int>>,decltype(&cmp)>pq(&cmp);
+        map<int, int> mp;
+        vector<int>res;
+        for(auto num : nums)
+            mp[num]++;
+        for(auto num:mp){
+            if(pq.size() < k){
+                pq.push(pair<int,int>(num.first,num.second));
+            }else{
+                if(num.second > pq.top().second){
+                    pq.pop();
+                    pq.push(pair<int,int>(num.first,num.second));
+                }
+            }
+        }
+        while(!pq.empty()){
+            res.push_back(pq.top().first);
+            pq.pop();
+        }
+        return res;
+    }
+};
+```
