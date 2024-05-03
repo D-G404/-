@@ -9,7 +9,7 @@
 [2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)  
 [2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
 [2024 4/27 栈与队列 有效的括号 删除字符串中的所有相邻重复项 逆波兰表达式求值](#有效的括号)  
-[2024 5/3 栈与队列  239. 滑动窗口最大值 前 K 个高频元素 ](#滑动窗口最大值)
+[2024 5/3 栈与队列 树  239. 滑动窗口最大值 前 K 个高频元素 二叉树前序遍历](#滑动窗口最大值)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -1125,6 +1125,59 @@ public:
             pq.pop();
         }
         return res;
+    }
+};
+```
+# 二叉树前序遍历 迭代  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3d8902f2-596e-4297-8b06-5b6d4058162c)
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // vector<int> v;
+    vector<int> preorderTraversal(TreeNode* root) {
+        //递归法和迭代法
+
+        // if(root == nullptr)
+        //     return v;
+        // v.push_back(root->val);
+        // preorderTraversal(root->left);
+        // preorderTraversal(root->right);
+        // return v;
+
+        vector<int>v;
+        stack<TreeNode*>stk;
+        if(root != nullptr){
+            stk.push(root);
+            v.push_back(root->val);
+        }
+        // 两个while 按照左侧遍历方式
+        while(!stk.empty()){
+            while(root && stk.top() != nullptr){
+                root = root->left; 
+                if(root){
+                    stk.push(root);
+                    v.push_back(root->val);
+                }            
+            }
+            root = stk.top()->right;
+            stk.pop();
+            if(root){
+                stk.push(root);
+                v.push_back(root->val);
+            }
+        }
+        return v;
     }
 };
 ```
