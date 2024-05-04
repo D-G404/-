@@ -1266,3 +1266,51 @@ public:
     }
 };
 ```
+# 层序遍历  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/0caadd9d-a862-4766-b91c-3d19d291847d)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        //怎么看是处于哪一层？每次都储存下一层元素 需要对第一层处理
+        vector<vector<int>> res;
+        queue<TreeNode*> q;
+        if(root){
+            q.push(root);
+            res.emplace_back(vector<int>{root->val});
+        }        
+        while(1){
+            vector<int>v;
+            queue<TreeNode*> temp;
+            while(!q.empty()){
+                if(q.front()->left)
+                    temp.push(q.front()->left);
+                if(q.front()->right)
+                    temp.push(q.front()->right);
+                q.pop();    
+            }
+            q = temp;
+            if(temp.empty())
+                break;
+            while(!temp.empty()){
+                v.push_back(temp.front()->val);
+                temp.pop();
+            }
+            res.push_back(v);
+               
+        }
+        return res;
+    }
+};
+```
