@@ -9,7 +9,8 @@
 [2024 4/25 字符串 实现strStr KMP() 重复的子字符串 ](#实现strStr)  
 [2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
 [2024 4/27 栈与队列 有效的括号 删除字符串中的所有相邻重复项 逆波兰表达式求值](#有效的括号)  
-[2024 5/3 栈与队列 树  239. 滑动窗口最大值 前 K 个高频元素 二叉树前序遍历](#滑动窗口最大值)
+[2024 5/3 栈与队列 树  239. 滑动窗口最大值 前 K 个高频元素 二叉树前序遍历](#滑动窗口最大值)  
+[2024 5/4 树 中序遍历迭代 后序遍历迭代 层序遍历](#中序遍历迭代)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -1163,7 +1164,7 @@ public:
         }
         // 两个while 按照左侧遍历方式
         while(!stk.empty()){
-            while(root && stk.top() != nullptr){
+            while(root){
                 root = root->left; 
                 if(root){
                     stk.push(root);
@@ -1177,6 +1178,90 @@ public:
                 v.push_back(root->val);
             }
         }
+        return v;
+    }
+};
+```
+# 中序遍历迭代  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/6be127ae-51f8-46ca-9877-6efa7af5b3dc)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
+ * };
+ */
+class Solution {
+public:
+   //迭代法 和前序遍历的区别： 在向左的节点都压入栈再访问
+    vector<int> inorderTraversal(TreeNode* root) { 
+        vector<int> res; 
+        stack<TreeNode*> stk;
+        if(root){
+            stk.push(root);
+        }
+        while(!stk.empty()){
+            while(root){
+                root = root->left;
+                if(root)
+                    stk.push(root);
+            }
+            res.push_back(stk.top()->val);
+            root = stk.top()->right;
+            stk.pop();
+            if(root)
+                stk.push(root);
+        }
+        return res;
+    }
+};
+```
+# 后序遍历  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/fc4c7821-6e83-453e-80b0-6bd46cd42ee4)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+   //调整前序遍历变成 中右左再反转 下次用传统方法做
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int>v;
+        stack<TreeNode*>stk;
+        if(root != nullptr){
+            stk.push(root);
+            v.push_back(root->val);
+        }
+        while(!stk.empty()){
+            while(root){
+                root = root->right; 
+                if(root){
+                    stk.push(root);
+                    v.push_back(root->val);
+                }            
+            }
+            root = stk.top()->left;
+            stk.pop();
+            if(root){
+                stk.push(root);
+                v.push_back(root->val);
+            }
+        }
+        reverse(v.begin(),v.end());
         return v;
     }
 };
