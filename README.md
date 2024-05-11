@@ -10,8 +10,8 @@
 [2024 4/26 栈与队列 用栈实现队列 用队列实现栈](#用栈实现队列)  
 [2024 4/27 栈与队列 有效的括号 删除字符串中的所有相邻重复项 逆波兰表达式求值](#有效的括号)  
 [2024 5/3 栈与队列 树  239. 滑动窗口最大值 前 K 个高频元素 二叉树前序遍历](#滑动窗口最大值)  
-[2024 5/4 树 中序遍历迭代 后序遍历迭代 层序遍历](#中序遍历迭代)
-[2024 ]
+[2024 5/4 树 中序遍历迭代 后序遍历迭代 层序遍历](#中序遍历迭代)  
+[2024 5/11 树 翻转二叉树 对称二叉树 二叉树的最大深度 n叉树的最大深度 二叉树的最小深度 完全二叉树的节点个数](#翻转二叉树)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -1312,6 +1312,138 @@ public:
                
         }
         return res;
+    }
+};
+```
+## 翻转二叉树  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/f52ed57e-f5a3-4994-90e5-a743e00c1943)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        //翻转二叉树 前序遍历递归解决
+        if(root == nullptr)
+            return root;
+        
+        TreeNode*temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+        invertTree(root->left);
+        invertTree(root->right);
+        return root;
+    }
+};
+``` 
+## 对称二叉树  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/c985f5cf-0e69-478d-8bf1-b1cae01a447a)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool check(TreeNode* t1,TreeNode* t2){
+        if(t1==nullptr && t2 == nullptr)
+            return true;
+        if(t1 == nullptr || t2 == nullptr)
+            return false;
+        return t1->val == t2->val && check(t1->left,t2->right) && check(t1->right,t2->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        //使用空间可以直接遍历存在vector在判断对称，如果不使用空间？
+        return check(root->left,root->right);
+    }
+};
+```
+## 二叉树的最大深度  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/3410d24c-afea-4555-ac36-32b20aeb1014)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        //递归方法
+        if(root == nullptr)
+            return 0;
+        return max(maxDepth(root->left),maxDepth(root->right))+1;
+    }
+};
+```
+## n叉树的最大深度 
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/47f84634-c1dc-48ac-a7d8-e65984534365)  
+```
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+    }
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        // 只能迭代处理 多叉树层序遍历
+        if (root == nullptr)
+            return 0;
+        int max = 1;
+        queue<Node*> q;
+        q.push(root);
+        while (!q.empty()) {
+            int len = q.size();
+            for(int j = 0; j < len; j++){
+                vector<Node*> v = q.front()->children;
+                for (int i = 0; i < v.size(); i++) {
+                    if(v[i] != nullptr)
+                        q.push(v[i]);
+                }
+                q.pop();
+            }             
+            if(q.size() != 0)
+                max += 1;
+        }
+        return max;
     }
 };
 ```
