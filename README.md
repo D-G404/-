@@ -1447,3 +1447,59 @@ public:
     }
 };
 ```
+## 二叉树的最小深度  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/175d59ca-02ae-4e6e-ad8a-7e507364348d)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+//递归解法
+    int minDepth(TreeNode* root) {
+        if(root == nullptr)
+            return 0;
+        if(root->left == nullptr && root->right == nullptr)
+            return 1;
+        int min_val = INT_MAX;
+        if(root->left != nullptr)
+            min_val = min(minDepth(root->left),min_val);
+        if(root->right != nullptr)
+            min_val = min(minDepth(root->right),min_val);
+        return min_val+1;
+    }
+};
+```
+## 完全二叉树节点数  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/671bca87-1498-46f4-a9cf-b1ccfbc59050)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        //递归解法
+        if(root == nullptr)
+            return 0;
+        return  countNodes(root->left)+ countNodes(root->right)+1;
+    }
+};
+```
+
