@@ -12,6 +12,7 @@
 [2024 5/3 栈与队列 树  239. 滑动窗口最大值 前 K 个高频元素 二叉树前序遍历](#滑动窗口最大值)  
 [2024 5/4 树 中序遍历迭代 后序遍历迭代 层序遍历](#中序遍历迭代)  
 [2024 5/11 树 翻转二叉树 对称二叉树 二叉树的最大深度 n叉树的最大深度 二叉树的最小深度 完全二叉树的节点个数](#翻转二叉树)
+[2024 5/12 树 平衡二叉树 二叉树的所有路径 左叶子之和](#平衡二叉树)
 
 ## 二分查找题目：  
 ![image](https://github.com/D-G404/leetcode-practice/assets/75080033/4352bb83-116f-4203-912b-c6862e31fc16)
@@ -1502,4 +1503,39 @@ public:
     }
 };
 ```
-
+## 平衡二叉树  
+![image](https://github.com/D-G404/leetcode-practice/assets/75080033/68a2971a-801e-41cb-b3d3-c9a8fbd11d42)  
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root){
+        if(root == nullptr)
+            return 0;
+        return max(maxDepth(root->left),maxDepth(root->right))+1;
+    }
+    bool sign = true;
+    bool isBalanced(TreeNode* root) {
+        //一种思路 把左右子树的最大高度算出来 注意需要是每个节点
+        if(root == nullptr)
+            return true;
+       
+        isBalanced(root->left);
+        isBalanced(root->right);
+        int val = abs(maxDepth(root->left)-maxDepth(root->right));
+        if(val > 1)
+            sign = false;
+        return sign;
+    }
+};
+```
